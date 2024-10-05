@@ -12,7 +12,11 @@ public class GetPlanets
         string Name,
         decimal DistanceFromEarthInParsecs,
         decimal RelativeSunBrightness,
-        int SunTemperatureInKelvin);
+        int SunTemperatureInKelvin,
+        decimal RelativeSizeToEarth,
+        decimal RelativeMassToEarth,
+        decimal RelativeGravityToEarth,
+        int NumberOfStarsInSystem);
 
     public class Endpoint(DataContext dataContext) : EndpointWithoutRequest<Response>
     {
@@ -29,8 +33,12 @@ public class GetPlanets
                     p.Id,
                     p.Name,
                     p.DistanceFromEarthInParsecs,
-                    p.RelativeSunBrightness,
-                    p.SunTemperatureInKelvin))
+                    p.RelativeBrightnessToSun,
+                    p.SunTemperatureInKelvin,
+                    p.RelativeSizeToEarth,
+                    p.RelativeMassToEarth,
+                    p.RelativeGravityToEarth,
+                    p.NumberOfStarsInSystem))
                 .ToList();
             
             return Task.FromResult(new Response(planets));

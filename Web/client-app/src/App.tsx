@@ -4,7 +4,7 @@ import { Layout } from "./components/Layout.tsx";
 import { useState } from "react";
 import { Constellation } from "@/lib/constellation.ts";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { PlanetOption } from "@/components/Sidebar/ExoplanetSelect.tsx";
+import { PlanetOption } from "@/components/Sidebar/PlanetSelect.tsx";
 
 const initialConstellation: Constellation = {
   id: null,
