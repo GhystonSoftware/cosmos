@@ -18,7 +18,7 @@ export const StarChart = ({ stars }: Props) => {
     const width = chartAreaWidth;
     const height = chartAreaHeight;
 
-    const radius = d3.scaleLinear([6, -1], [0, 8]);
+    const radius = d3.scaleLinear([0.6, 1], [2, 6]);
     const graticule = d3.geoGraticule().stepMinor([15, 10])();
 
     const projection = d3
@@ -55,7 +55,7 @@ export const StarChart = ({ stars }: Props) => {
       .attr("stroke-opacity", 0.2);
 
     svg.append("g")
-      .attr("stroke", "black")
+      .attr("stroke", "#081f4b")
       .selectAll()
       .data(stars)
       .join("circle")
@@ -63,5 +63,5 @@ export const StarChart = ({ stars }: Props) => {
       .attr("transform", star => `translate(${projection([star.x, star.y])})`);
   });
 
-  return <div style={{ width: "100vh", height: "100vh" }} ref={chartCanvasRef} />;
+  return <div style={{ width: "100vw", height: "100vh", maxWidth: '100vh', maxHeight: '100vw' }} ref={chartCanvasRef} />;
 };

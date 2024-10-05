@@ -5,5 +5,5 @@ type LayoutProps = {
 };
 
 export const Layout = ({ children }: LayoutProps) => {
-  return <div className="flex flex-row w-full justify-between">{children}</div>;
+  return <div className="flex flex-row w-full relative justify-start">{children}</div>;
 };
