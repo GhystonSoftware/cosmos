@@ -133,38 +133,10 @@ namespace Web.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
-            migrationBuilder.CreateTable(
-                name: "ConstellationLineVisibleStar",
-                columns: table => new
-                {
-                    ConstellationLinesId = table.Column<int>(type: "int", nullable: false),
-                    StarsId = table.Column<int>(type: "int", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_ConstellationLineVisibleStar", x => new { x.ConstellationLinesId, x.StarsId });
-                    table.ForeignKey(
-                        name: "FK_ConstellationLineVisibleStar_ConstellationLines_ConstellationLinesId",
-                        column: x => x.ConstellationLinesId,
-                        principalTable: "ConstellationLines",
-                        principalColumn: "Id");
-                    table.ForeignKey(
-                        name: "FK_ConstellationLineVisibleStar_VisibleStars_StarsId",
-                        column: x => x.StarsId,
-                        principalTable: "VisibleStars",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
             migrationBuilder.CreateIndex(
                 name: "IX_ConstellationLines_ConstellationId",
                 table: "ConstellationLines",
                 column: "ConstellationId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_ConstellationLineVisibleStar_StarsId",
-                table: "ConstellationLineVisibleStar",
-                column: "StarsId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Constellations_StarMapId",
@@ -190,9 +162,6 @@ namespace Web.Migrations
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.DropTable(
-                name: "ConstellationLineVisibleStar");
-
             migrationBuilder.DropTable(
                 name: "ConstellationLines");
 

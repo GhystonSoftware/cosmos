@@ -22,21 +22,6 @@ namespace Web.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("ConstellationLineVisibleStar", b =>
-                {
-                    b.Property<int>("ConstellationLinesId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("StarsId")
-                        .HasColumnType("int");
-
-                    b.HasKey("ConstellationLinesId", "StarsId");
-
-                    b.HasIndex("StarsId");
-
-                    b.ToTable("ConstellationLineVisibleStar");
-                });
-
             modelBuilder.Entity("Web.Features.Constellations.Constellation", b =>
                 {
                     b.Property<int>("Id")
@@ -197,21 +182,6 @@ namespace Web.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Stars");
-                });
-
-            modelBuilder.Entity("ConstellationLineVisibleStar", b =>
-                {
-                    b.HasOne("Web.Features.Constellations.ConstellationLine", null)
-                        .WithMany()
-                        .HasForeignKey("ConstellationLinesId")
-                        .OnDelete(DeleteBehavior.NoAction)
-                        .IsRequired();
-
-                    b.HasOne("Web.Features.StarMaps.VisibleStar", null)
-                        .WithMany()
-                        .HasForeignKey("StarsId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
                 });
 
             modelBuilder.Entity("Web.Features.Constellations.Constellation", b =>
