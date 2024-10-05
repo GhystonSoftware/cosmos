@@ -1,5 +1,5 @@
 ﻿import * as d3 from "d3";
-import {useD3} from "../hooks/useD3.ts";
+import { useD3 } from "../hooks/useD3.ts";
 
 export type Star = {
   x: number;
@@ -15,7 +15,7 @@ export const StarChart = ({ stars }: Props) => {
   const chartCanvasRef = useD3((drawingCanvas, chartAreaWidth) => {
     drawingCanvas.select("svg").remove();
 
-    console.log(stars)
+    console.log(stars);
 
     const width = chartAreaWidth;
     const height = width;
@@ -51,7 +51,7 @@ export const StarChart = ({ stars }: Props) => {
       .attr("viewBox", [0, 0, width, height])
       .attr(
         "style",
-        "display: block; margin: 0 -14px; width: 100%; height: auto; font: 10px sans-serif; color: white; background: radial-gradient(#081f4b 0%, #061616 100%);"
+        "display: block; margin: 0 -14px; width: 100%; height: auto; font: 10px sans-serif; color: white;",
       )
       .attr("text-anchor", "middle")
       .attr("fill", "currentColor");

@@ -9,6 +9,7 @@
 
   color-scheme: light dark;
   color: rgba(255, 255, 255, 0.87);
+  background: radial-gradient(#081f4b 0%, #061616 100%);
 
   font-synthesis: none;
   text-rendering: optimizeLegibility;
@@ -24,7 +25,10 @@ body {
   min-height: 100vh;
 }
 
-div.root {
+div#root {
   width: 100%;
   height: 100%;
+  margin: 0 auto;
+  padding: 2rem;
+  text-align: center;
 }
