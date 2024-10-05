@@ -6,5 +6,5 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddFastEndpoints().SwaggerDocument();
 
 var app = builder.Build();
-app.UseFastEndpoints().UseSwaggerGen();
+app.UseFastEndpoints(c => { c.Endpoints.RoutePrefix = "api"; }).UseSwaggerGen();
 app.Run();
