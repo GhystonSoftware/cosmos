@@ -12,18 +12,13 @@ export type Props = {
 };
 
 export const StarChart = ({ stars }: Props) => {
-  const chartCanvasRef = useD3((drawingCanvas, chartAreaWidth) => {
+  const chartCanvasRef = useD3((drawingCanvas, chartAreaWidth, chartAreaHeight) => {
     drawingCanvas.select("svg").remove();
 
-    console.log(stars);
-
     const width = chartAreaWidth;
-    const height = width;
+    const height = chartAreaHeight;
 
-    const cx = width / 2;
-    const cy = height / 2;
     const radius = d3.scaleLinear([6, -1], [0, 8]);
-    const outline = d3.geoCircle().radius(90).center([0, 90])();
     const graticule = d3.geoGraticule().stepMinor([15, 10])();
 
     const projection = d3
@@ -39,10 +34,6 @@ export const StarChart = ({ stars }: Props) => {
       .precision(0.1);
 
     const path = d3.geoPath(projection);
-
-    // const voronoi = d3.Delaunay
-    //   .from(data.map(projection))
-    //   .voronoi([0, 0, width, height]);
 
     const svg = drawingCanvas
       .append("svg")
@@ -62,7 +53,15 @@ export const StarChart = ({ stars }: Props) => {
       .attr("fill", "none")
       .attr("stroke", "currentColor")
       .attr("stroke-opacity", 0.2);
+
+    svg.append("g")
+      .attr("stroke", "black")
+      .selectAll()
+      .data(stars)
+      .join("circle")
+      .attr("r", star => radius(star.brightness))
+      .attr("transform", star => `translate(${projection([star.x, star.y])})`);
   });
 
-  return <div style={{ width: "50vw", height: "100%" }} ref={chartCanvasRef} />;
+  return <div style={{ width: "100vh", height: "100vh" }} ref={chartCanvasRef} />;
 };

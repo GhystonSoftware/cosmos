@@ -5,7 +5,8 @@ import { select } from "d3";
 export const useD3 = (
   renderChart: (
     ref: Selection<HTMLDivElement, unknown, null, undefined>,
-    chartAreaWidth: number
+    chartAreaWidth: number,
+    chartAreaHeight: number
   ) => void
 ) => {
   const ref = useRef<HTMLDivElement>(null);
@@ -28,7 +29,7 @@ export const useD3 = (
 
   useEffect(() => {
     if (ref.current) {
-      renderChart(select(ref.current), ref.current.clientWidth);
+      renderChart(select(ref.current), ref.current.clientWidth, ref.current.clientHeight);
     }
   }, [ref, renderChart, width, height]);
 
