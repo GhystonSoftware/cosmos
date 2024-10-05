@@ -1,6 +1,6 @@
 import * as data from "./data/stars.json";
 import { Star, StarChart } from "./components/StarChart.tsx";
-import { Sidebar } from "./components/Sidebar.tsx";
+import { Sidebar } from "./components/Sidebar/Sidebar.tsx";
 import { Layout } from "./components/Layout.tsx";
 
 function App() {
