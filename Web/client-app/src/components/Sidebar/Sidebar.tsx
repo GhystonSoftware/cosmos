@@ -1,6 +1,5 @@
 import { Header } from "./Header.tsx";
 import {
-  defaultPlanetOptions,
   ExoplanetSelect,
   PlanetOption,
 } from "@/components/Sidebar/ExoplanetSelect.tsx";
@@ -27,15 +26,8 @@ export const Sidebar = ({
   return (
     <div className="border-2 border-gray-700 p-4 m-4 rounded-xl">
       <Header>Step 1: pick your planet</Header>
-      <ExoplanetSelect
-        options={defaultPlanetOptions}
-        value={selectedPlanet}
-        onChange={setSelectedPlanet}
-      />
-        <PlanetStatistics planet={selectedPlanet} />
-      <div>
-        Selected planet: <i>{selectedPlanet?.label ?? "None"}</i>
-      </div>
+      <ExoplanetSelect value={selectedPlanet} onChange={setSelectedPlanet} />
+      <PlanetStatistics planet={selectedPlanet?.planet} />
       <Header>Step 2: build your constellation!</Header>
       {!isCreatingConstellation && (
         <Button
