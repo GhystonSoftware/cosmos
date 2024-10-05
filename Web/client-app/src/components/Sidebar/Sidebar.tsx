@@ -7,6 +7,7 @@ import {
 import { useState } from "react";
 import { Button } from "@/components/ui/button.tsx";
 import { Constellation } from "@/lib/constellation.ts";
+import { PlanetStatistics } from "@/components/Sidebar/PlanetStatistics.tsx";
 
 export type Props = {
   isCreatingConstellation: boolean;
@@ -31,6 +32,7 @@ export const Sidebar = ({
         value={selectedPlanet}
         onChange={setSelectedPlanet}
       />
+        <PlanetStatistics planet={selectedPlanet} />
       <div>
         Selected planet: <i>{selectedPlanet?.label ?? "None"}</i>
       </div>
