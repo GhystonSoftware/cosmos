@@ -1,0 +1,6 @@
+circle.star {
+    -webkit-box-shadow: 0px 0px 113px 21px rgba(255,255,255,1);
+    -moz-box-shadow: 0px 0px 113px 21px rgba(255,255,255,1);
+    box-shadow: 0px 0px 113px 21px rgba(255,255,255,1);
+    filter: drop-shadow(0px 0px 11px rgba(255,255,255,0.7));
+}
