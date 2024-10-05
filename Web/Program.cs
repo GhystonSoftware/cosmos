@@ -6,6 +6,7 @@ using Web.Database;
 var builder = WebApplication.CreateBuilder(args);
 
 var connectionString = builder.Configuration.GetConnectionString("Database");
+Console.WriteLine(connectionString);
 builder.Services.AddDbContext<DataContext>(x => x.UseSqlServer(connectionString));
 builder.Services.AddFastEndpoints().SwaggerDocument();
 
