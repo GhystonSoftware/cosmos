@@ -15,6 +15,19 @@ import {
   hasConstellationSelectedFirstStar,
   updateConstellationOnStarClick,
 } from "@/helpers/constellationHelpers.ts";
+import { PlanetOption } from "@/components/Sidebar/ExoplanetSelect.tsx";
+import { useQuery } from "@tanstack/react-query";
+
+export type Props = {
+  selectedPlanet: PlanetOption | null;
+  isCreatingConstellation: boolean;
+  constellation: Constellation;
+  setConstellation: (constellation: Constellation) => void;
+};
+
+type StarResponse = {
+  stars: Star[];
+};
 
 export type Star = {
   id: string;
@@ -23,20 +36,26 @@ export type Star = {
   brightness: number; // apparentBrightness or alpha??
 };
 
-export type Props = {
-  stars: Array<Star>;
-  isCreatingConstellation: boolean;
-  constellation: Constellation;
-  setConstellation: (constellation: Constellation) => void;
-};
-
 //TODO; Add some UI indicator background or text that says creating constellation ?
 export const StarChart = ({
-  stars,
+  selectedPlanet,
   isCreatingConstellation,
   constellation,
   setConstellation,
 }: Props) => {
+  const { data } = useQuery({
+    queryKey: ["stars", selectedPlanet?.planet.id],
+    queryFn: async () => {
+      if (selectedPlanet === null) {
+        return null;
+      }
+
+      const response = await fetch(`/api/stars/${selectedPlanet.planet.id}`);
+
+      return (await response.json()) as StarResponse;
+    },
+  });
+
   const onStarClick = (_: MouseEvent, star: Star) => {
     if (!isCreatingConstellation) return;
 
@@ -98,14 +117,16 @@ export const StarChart = ({
 
       addConstellationLines(svg, projection, constellation);
 
-      addStars(
-        svg,
-        projection,
-        stars,
-        radius,
-        onStarClick,
-        isCreatingConstellation,
-      );
+      if (data) {
+        addStars(
+          svg,
+          projection,
+          data.stars,
+          radius,
+          onStarClick,
+          isCreatingConstellation,
+        );
+      }
     },
   );
 
