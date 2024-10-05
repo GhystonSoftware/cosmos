@@ -12,7 +12,7 @@ using Web.Database;
 namespace Web.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20241005142735_InitialSchema")]
+    [Migration("20241005151821_InitialSchema")]
     partial class InitialSchema
     {
         /// <inheritdoc />
@@ -24,6 +24,21 @@ namespace Web.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
+
+            modelBuilder.Entity("ConstellationLineVisibleStar", b =>
+                {
+                    b.Property<int>("ConstellationLinesId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("StarsId")
+                        .HasColumnType("int");
+
+                    b.HasKey("ConstellationLinesId", "StarsId");
+
+                    b.HasIndex("StarsId");
+
+                    b.ToTable("ConstellationLineVisibleStar");
+                });
 
             modelBuilder.Entity("Web.Features.Constellations.Constellation", b =>
                 {
@@ -65,19 +80,9 @@ namespace Web.Migrations
                     b.Property<int>("ConstellationId")
                         .HasColumnType("int");
 
-                    b.Property<int>("Star1Id")
-                        .HasColumnType("int");
-
-                    b.Property<int>("Star2Id")
-                        .HasColumnType("int");
-
                     b.HasKey("Id");
 
                     b.HasIndex("ConstellationId");
-
-                    b.HasIndex("Star1Id");
-
-                    b.HasIndex("Star2Id");
 
                     b.ToTable("ConstellationLines");
                 });
@@ -197,6 +202,21 @@ namespace Web.Migrations
                     b.ToTable("Stars");
                 });
 
+            modelBuilder.Entity("ConstellationLineVisibleStar", b =>
+                {
+                    b.HasOne("Web.Features.Constellations.ConstellationLine", null)
+                        .WithMany()
+                        .HasForeignKey("ConstellationLinesId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
+                    b.HasOne("Web.Features.StarMaps.VisibleStar", null)
+                        .WithMany()
+                        .HasForeignKey("StarsId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("Web.Features.Constellations.Constellation", b =>
                 {
                     b.HasOne("Web.Features.StarMaps.StarMap", "StarMap")
@@ -215,22 +235,6 @@ namespace Web.Migrations
                         .HasForeignKey("ConstellationId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.HasOne("Web.Features.StarMaps.VisibleStar", "Star1")
-                        .WithMany()
-                        .HasForeignKey("Star1Id")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Web.Features.StarMaps.VisibleStar", "Star2")
-                        .WithMany()
-                        .HasForeignKey("Star2Id")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Star1");
-
-                    b.Navigation("Star2");
                 });
 
             modelBuilder.Entity("Web.Features.StarMaps.StarMap", b =>
