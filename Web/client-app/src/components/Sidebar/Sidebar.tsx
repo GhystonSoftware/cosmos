@@ -3,7 +3,6 @@ import {
   ExoplanetSelect,
   PlanetOption,
 } from "@/components/Sidebar/ExoplanetSelect.tsx";
-import { useState } from "react";
 import { Button } from "@/components/ui/button.tsx";
 import { Constellation } from "@/lib/constellation.ts";
 import { PlanetStatistics } from "@/components/Sidebar/PlanetStatistics.tsx";
@@ -12,17 +11,17 @@ export type Props = {
   isCreatingConstellation: boolean;
   setIsCreatingConstellation: (isCreatingConstellation: boolean) => void;
   constellation: Constellation;
+  selectedPlanet: PlanetOption | null;
+  setSelectedPlanet: (option: PlanetOption | null) => void;
 };
 
 export const Sidebar = ({
   isCreatingConstellation,
   setIsCreatingConstellation,
   constellation,
+  selectedPlanet,
+  setSelectedPlanet,
 }: Props) => {
-  const [selectedPlanet, setSelectedPlanet] = useState<PlanetOption | null>(
-    null,
-  );
-
   return (
     <div className="border-2 border-gray-700 p-4 m-4 rounded-xl">
       <Header>Step 1: pick your planet</Header>

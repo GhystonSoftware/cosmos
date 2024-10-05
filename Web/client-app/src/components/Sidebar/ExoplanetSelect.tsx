@@ -67,7 +67,7 @@ export const ExoplanetSelect = (props: ExoplanetSelectProps) => {
               <SelectItem key={option.value} value={option.value}>
                 <b>{option.label}</b>
                 <span className="ml-2 text-gray-300">
-                  [{option.planet.distanceFromEarthInParsecs} parsecs]
+                  [{option.planet.distanceFromEarthInParsecs} pc]
                 </span>
               </SelectItem>
             ))}
