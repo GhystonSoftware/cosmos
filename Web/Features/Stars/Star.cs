@@ -13,7 +13,7 @@ public class Star
     [Precision(20, 4)] public decimal DeclinationInDegrees { get; set; }
     [Precision(20, 4)] public decimal DistanceFromEarthInParsecs { get; set; }
     
-    public decimal Luminosity { get; set; }
+    [Precision(20, 4)] public decimal Luminosity { get; set; }
     
     public ICollection<VisibleStar>? VisibleStars { get; set; }
 }
