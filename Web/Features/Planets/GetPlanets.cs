@@ -11,7 +11,7 @@ public class GetPlanets
         int Id,
         string Name,
         decimal DistanceFromEarthInParsecs,
-        decimal RelativeSunBrightness,
+        decimal RelativeBrightnessToSun,
         int SunTemperatureInKelvin,
         decimal RelativeSizeToEarth,
         decimal RelativeMassToEarth,
