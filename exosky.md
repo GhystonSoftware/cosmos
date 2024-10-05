@@ -27,10 +27,9 @@ MVP tasks:
   - Id
   - StarMapId
   - Name
-  - RA
-  - Dec
-  - Distance
-  - AbsoluteBrightness
+  - x
+  - y
+  - ApparentBrightness
   - ... other metadata we want to display
 - Constellations
   - Id
