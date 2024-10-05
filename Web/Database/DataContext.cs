@@ -12,13 +12,6 @@ public class DataContext : DbContext
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        modelBuilder.Entity<VisibleStar>()
-            .HasMany(f => f.ConstellationLines)
-            .WithMany(g => g.Stars)
-            .UsingEntity<Dictionary<string, object>>(
-                "ConstellationLineVisibleStar",
-                j => j.HasOne<ConstellationLine>().WithMany().OnDelete(DeleteBehavior.NoAction),
-                j => j.HasOne<VisibleStar>().WithMany().OnDelete(DeleteBehavior.Cascade));
     }
     
     public DbSet<Star> Stars { get; set; }

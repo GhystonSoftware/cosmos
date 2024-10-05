@@ -17,6 +17,4 @@ public class VisibleStar
     [Precision(5, 2)] public decimal X { get; set; }
     [Precision(5, 2)] public decimal Y { get; set; }
     [Precision(3, 3)] public decimal Brightness { get; set; }
-
-    public ICollection<ConstellationLine>? ConstellationLines { get; set; }
 }
