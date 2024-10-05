@@ -11,13 +11,38 @@ namespace Web.Migrations
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.AlterColumn<string>(
-                name: "Name",
-                table: "Planets",
-                type: "VARCHAR(100)",
-                nullable: false,
-                oldClrType: typeof(string),
-                oldType: "nvarchar(max)");
+            migrationBuilder.CreateTable(
+                name: "Planets",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(type: "VARCHAR(100)", nullable: false),
+                    RightAscensionInDegrees = table.Column<decimal>(type: "decimal(20,4)", precision: 20, scale: 4, nullable: false),
+                    DeclinationInDegrees = table.Column<decimal>(type: "decimal(20,4)", precision: 20, scale: 4, nullable: false),
+                    DistanceFromEarthInParsecs = table.Column<decimal>(type: "decimal(20,4)", precision: 20, scale: 4, nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Planets", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Stars",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(type: "VARCHAR(100)", nullable: false),
+                    RightAscensionInDegrees = table.Column<decimal>(type: "decimal(20,4)", precision: 20, scale: 4, nullable: false),
+                    DeclinationInDegrees = table.Column<decimal>(type: "decimal(20,4)", precision: 20, scale: 4, nullable: false),
+                    DistanceFromEarthInParsecs = table.Column<decimal>(type: "decimal(20,4)", precision: 20, scale: 4, nullable: false),
+                    Luminosity = table.Column<decimal>(type: "decimal(20,4)", precision: 20, scale: 4, nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Stars", x => x.Id);
+                });
 
             migrationBuilder.CreateTable(
                 name: "StarMaps",
@@ -36,23 +61,6 @@ namespace Web.Migrations
                         principalTable: "Planets",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Stars",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "VARCHAR(100)", nullable: false),
-                    RightAscensionInDegrees = table.Column<decimal>(type: "decimal(20,4)", precision: 20, scale: 4, nullable: false),
-                    DeclinationInDegrees = table.Column<decimal>(type: "decimal(20,4)", precision: 20, scale: 4, nullable: false),
-                    DistanceFromEarthInParsecs = table.Column<decimal>(type: "decimal(20,4)", precision: 20, scale: 4, nullable: false),
-                    Luminosity = table.Column<decimal>(type: "decimal(20,4)", precision: 20, scale: 4, nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Stars", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -112,9 +120,7 @@ namespace Web.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    ConstellationId = table.Column<int>(type: "int", nullable: false),
-                    Star1Id = table.Column<int>(type: "int", nullable: false),
-                    Star2Id = table.Column<int>(type: "int", nullable: false)
+                    ConstellationId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -125,15 +131,26 @@ namespace Web.Migrations
                         principalTable: "Constellations",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "ConstellationLineVisibleStar",
+                columns: table => new
+                {
+                    ConstellationLinesId = table.Column<int>(type: "int", nullable: false),
+                    StarsId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ConstellationLineVisibleStar", x => new { x.ConstellationLinesId, x.StarsId });
                     table.ForeignKey(
-                        name: "FK_ConstellationLines_VisibleStars_Star1Id",
-                        column: x => x.Star1Id,
-                        principalTable: "VisibleStars",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        name: "FK_ConstellationLineVisibleStar_ConstellationLines_ConstellationLinesId",
+                        column: x => x.ConstellationLinesId,
+                        principalTable: "ConstellationLines",
+                        principalColumn: "Id");
                     table.ForeignKey(
-                        name: "FK_ConstellationLines_VisibleStars_Star2Id",
-                        column: x => x.Star2Id,
+                        name: "FK_ConstellationLineVisibleStar_VisibleStars_StarsId",
+                        column: x => x.StarsId,
                         principalTable: "VisibleStars",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
@@ -145,14 +162,9 @@ namespace Web.Migrations
                 column: "ConstellationId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_ConstellationLines_Star1Id",
-                table: "ConstellationLines",
-                column: "Star1Id");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_ConstellationLines_Star2Id",
-                table: "ConstellationLines",
-                column: "Star2Id");
+                name: "IX_ConstellationLineVisibleStar_StarsId",
+                table: "ConstellationLineVisibleStar",
+                column: "StarsId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Constellations_StarMapId",
@@ -179,27 +191,25 @@ namespace Web.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "ConstellationLines");
+                name: "ConstellationLineVisibleStar");
 
             migrationBuilder.DropTable(
-                name: "Constellations");
+                name: "ConstellationLines");
 
             migrationBuilder.DropTable(
                 name: "VisibleStars");
 
             migrationBuilder.DropTable(
-                name: "StarMaps");
+                name: "Constellations");
 
             migrationBuilder.DropTable(
                 name: "Stars");
 
-            migrationBuilder.AlterColumn<string>(
-                name: "Name",
-                table: "Planets",
-                type: "nvarchar(max)",
-                nullable: false,
-                oldClrType: typeof(string),
-                oldType: "VARCHAR(100)");
+            migrationBuilder.DropTable(
+                name: "StarMaps");
+
+            migrationBuilder.DropTable(
+                name: "Planets");
         }
     }
 }
