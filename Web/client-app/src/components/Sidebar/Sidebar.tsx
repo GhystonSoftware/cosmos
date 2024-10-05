@@ -5,9 +5,21 @@ import {
   PlanetOption,
 } from "@/components/Sidebar/ExoplanetSelect.tsx";
 import { useState } from "react";
+import { Button } from "@/components/ui/button.tsx";
+import { Constellation } from "@/lib/constellation.ts";
 import { PlanetStatistics } from "@/components/Sidebar/PlanetStatistics.tsx";
 
-export const Sidebar = () => {
+export type Props = {
+  isCreatingConstellation: boolean;
+  setIsCreatingConstellation: (isCreatingConstellation: boolean) => void;
+  constellation: Constellation;
+};
+
+export const Sidebar = ({
+  isCreatingConstellation,
+  setIsCreatingConstellation,
+  constellation,
+}: Props) => {
   const [selectedPlanet, setSelectedPlanet] = useState<PlanetOption | null>(
     null,
   );
@@ -20,9 +32,33 @@ export const Sidebar = () => {
         value={selectedPlanet}
         onChange={setSelectedPlanet}
       />
-      <PlanetStatistics planet={selectedPlanet} />
+        <PlanetStatistics planet={selectedPlanet} />
+      <div>
+        Selected planet: <i>{selectedPlanet?.label ?? "None"}</i>
+      </div>
       <Header>Step 2: build your constellation!</Header>
-      TODO - add the list of stars you selected here
+      {!isCreatingConstellation && (
+        <Button
+          onClick={() => setIsCreatingConstellation(!isCreatingConstellation)}
+        >
+          Create Constellation
+        </Button>
+      )}
+      {isCreatingConstellation && (
+        <Button
+          onClick={() => setIsCreatingConstellation(!isCreatingConstellation)}
+        >
+          Finish Constellation
+        </Button>
+      )}
+      <p>Lines</p>
+      <ol className="ml-2">
+        {constellation.lines.map((line) => (
+          <li className="list-disc" key={line.id}>
+            {line.star1?.id} {"->"} {line.star2?.id}
+          </li>
+        ))}
+      </ol>
     </div>
   );
 };

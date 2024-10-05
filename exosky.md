@@ -27,10 +27,9 @@ MVP tasks:
   - Id
   - StarMapId
   - Name
-  - RA
-  - Dec
-  - Distance
-  - AbsoluteBrightness
+  - x
+  - y
+  - ApparentBrightness
   - ... other metadata we want to display
 - Constellations
   - Id
@@ -92,7 +91,7 @@ Fields to fetch from API: position in sky (RA, Dec), distance, Name, ID, Brightn
 ### CoordinateTransformationService
 
 - Project polar coordinates (& distance) to x,y coordinates for display on map
-- Convert between sexagesimal 
+- Convert between sexagesimal and decimal angles
 
 ### WebApi
 
