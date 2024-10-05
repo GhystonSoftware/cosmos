@@ -1,0 +1,26 @@
+﻿name: Build
+
+on: 
+  pull_request:
+    branches:
+      - main
+        
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Check out
+        uses: actions/checkout@v4
+        
+      - name: Set up .NET
+        uses: actions/setup-dotnet@v4
+        with: 
+          dotnet-version: '8.0.x'
+      
+      - name: Build backend
+        run: dotnet build
+        
+      - name: Build frontend
+        run: npm run build
+        
