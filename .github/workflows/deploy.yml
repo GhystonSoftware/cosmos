@@ -4,6 +4,7 @@ on:
   push:
     branches: 
       - main
+      - seb-fix-it
         
 jobs:
   publish:
