@@ -2,18 +2,18 @@ using System;
 
 class PolarCoordinateHelperCalculator
 {
-    const var RadiusOfStarMap = 500; 
-
-    public static (double x, double y) PolarToCartesian(double radius, double theta)
-    {
-        double x = radius * Math.Cos(theta);
-        double y = radius * Math.Sin(theta);
-        return (x, y);
-    }
+    const RadiusOfStarMap = 500; 
 
     private static double DegreeToRadian (double degree) 
     {
         return degree * Math.PI / 180;
+    }
+
+    private static (double x, double y) PolarToCartesian(double radius, double theta)
+    {
+        double x = radius * Math.Cos(theta);
+        double y = radius * Math.Sin(theta);
+        return (x, y);
     }
 
     public static (double x, double y) GetStarCatesianCoordinatesInStarMap(double ra, double dec)
