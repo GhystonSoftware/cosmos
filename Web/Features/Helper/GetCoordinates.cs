@@ -2,7 +2,7 @@ using System;
 
 class PolarCoordinateHelperCalculator
 {
-    const RadiusOfStarMap = 500; 
+    private const int RadiusOfStarMap = 500; 
 
     private static double DegreeToRadian (double degree) 
     {
@@ -19,7 +19,7 @@ class PolarCoordinateHelperCalculator
     public static (double x, double y) GetStarCatesianCoordinatesInStarMap(double ra, double dec)
     {
         double radius = Math.Cos(DegreeToRadian(dec)) * RadiusOfStarMap;
-        double theta = DegreeToRadian(ra - 90); 
+        double theta = DegreeToRadian(ra); 
 
         return PolarToCartesian(radius, theta);
     }
