@@ -1,0 +1,54 @@
+﻿name: Deploy
+
+on: 
+  push:
+    branches: 
+      - main
+      - seb-actually-deployment
+        
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Check out
+        uses: actions/checkout@v4
+
+      - name: Set up .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '8.0.x'
+
+      - name: Install frontend dependencies
+        run: npm install
+        working-directory: ./Web/client-app
+        
+      - name: Publish .NET
+        run: dotnet publish ./Web/Web.csproj -o publish-output
+        
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: Artifact
+          path: publish-output
+          
+  deploy:
+    runs-on: ubuntu-latest
+    needs: publish
+    
+    steps:
+      - name: Download artifact
+        uses: actions/download-artifact@v4
+        with: 
+          name: Artifact
+          path: .
+          
+      - name: List
+        run: ls
+        
+      - name: Deploy web app
+        uses: azure/webapps-deploy@v2
+        with:
+          app-name: cosmos
+          publish-profile: ${{ secrets.WEBAPP_PUBLISH_PROFILE }}
+          package: .
