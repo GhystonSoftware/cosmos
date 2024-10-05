@@ -1,4 +1,6 @@
 import * as d3 from "d3";
+import { Star } from "@/components/StarChart.tsx";
+import { Constellation } from "@/lib/constellation.ts";
 
 export const addCircleClipPath = (
   defs: d3.Selection<SVGDefsElement, unknown, null, undefined>,
@@ -76,7 +78,7 @@ export const addTicks = (
   // 5-minute ticks
   svg
     .append("g")
-    .attr("stroke", "currentColor")
+    .attr("stroke", "white")
     .selectAll()
     .data(d3.range(0, 1440, 5)) // every 5 minutes
     .join("line")
@@ -84,10 +86,10 @@ export const addTicks = (
       projection([d / 4, 0]),
       projection([d / 4, d % 60 ? -1 : -2]),
     ])
-    .attr("x1", (d) => (d ? (d[0] ? [0] : 0) : 0))
-    .attr("x2", (d) => (d ? (d[1] ? [0] : 0) : 0))
-    .attr("y1", (d) => (d ? (d[0] ? [1] : 0) : 0))
-    .attr("y2", (d) => (d ? (d[1] ? [1] : 0) : 0));
+    .attr("x1", (d) => (d ? (d[0] ? d[0][0] : 0) : 0))
+    .attr("x2", (d) => (d ? (d[1] ? d[1][0] : 0) : 0))
+    .attr("y1", (d) => (d ? (d[0] ? d[0][1] : 0) : 0))
+    .attr("y2", (d) => (d ? (d[1] ? d[1][1] : 0) : 0));
 
   // Hourly ticks and labels
   svg
@@ -121,6 +123,8 @@ export const addStars = (
   projection: d3.GeoProjection,
   stars: any[],
   radius: (brightness: number) => number,
+  onStarClick: (event: MouseEvent, star: Star) => void,
+  isCreatingConstellation: boolean,
 ) => {
   svg
     .append("g")
@@ -132,4 +136,51 @@ export const addStars = (
     .attr("class", "star")
     .attr("fill", "url(#fadeGradient)")
     .attr("transform", (star) => `translate(${projection([star.x, star.y])})`);
+
+  // I'm rendering it twice, It looks good and It would be hard to replicate the effect with a single circle, bite me
+  svg
+    .append("g")
+    .attr("stroke", "transparent")
+    .selectAll()
+    .data(stars)
+    .join("circle")
+    .attr("r", (star) => radius(star.brightness))
+    .attr("class", "star")
+    .attr("fill", "url(#fadeGradient)")
+    .attr("class", isCreatingConstellation ? "cursor-crosshair" : "")
+    .attr("transform", (star) => `translate(${projection([star.x, star.y])})`)
+    .on("click", onStarClick);
+};
+
+export const addConstellationLines = (
+  svg: d3.Selection<SVGSVGElement, unknown, null, undefined>,
+  projection: d3.GeoProjection,
+  constellation: Constellation,
+) => {
+  const lineGenerator = d3
+    .line<[number, number]>()
+    .x((d) => d[0])
+    .y((d) => d[1]);
+
+  constellation.lines.forEach((line) => {
+    if (line.star1 && line.star2) {
+      const point1 = projection([line.star1.x, line.star1.y]) as [
+        number,
+        number,
+      ];
+      const point2 = projection([line.star2.x, line.star2.y]) as [
+        number,
+        number,
+      ];
+
+      svg
+        .append("path")
+        .datum([point1, point2])
+        .attr("class", "constellation-line")
+        .attr("d", lineGenerator)
+        .attr("fill", "none")
+        .attr("stroke", "white")
+        .attr("stroke-width", 1.5);
+    }
+  });
 };

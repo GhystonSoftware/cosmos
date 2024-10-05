@@ -3,13 +3,21 @@ import { useD3 } from "../hooks/useD3.ts";
 import "../assets/styles/StarChart.css";
 import {
   addCircleClipPath,
+  addConstellationLines,
   addGraticule,
+  addOutline,
   addRadialGradient,
   addStars,
   addTicks,
 } from "@/helpers/starChartHelpers.ts";
+import { Constellation } from "@/lib/constellation.ts";
+import {
+  hasConstellationSelectedFirstStar,
+  updateConstellationOnStarClick,
+} from "@/helpers/constellationHelpers.ts";
 
 export type Star = {
+  id: string;
   x: number;
   y: number;
   brightness: number; // apparentBrightness or alpha??
@@ -17,9 +25,24 @@ export type Star = {
 
 export type Props = {
   stars: Array<Star>;
+  isCreatingConstellation: boolean;
+  constellation: Constellation;
+  setConstellation: (constellation: Constellation) => void;
 };
 
-export const StarChart = ({ stars }: Props) => {
+//TODO; Add some UI indicator background or text that says creating constellation ?
+export const StarChart = ({
+  stars,
+  isCreatingConstellation,
+  constellation,
+  setConstellation,
+}: Props) => {
+  const onStarClick = (_: MouseEvent, star: Star) => {
+    if (!isCreatingConstellation) return;
+
+    setConstellation(updateConstellationOnStarClick(constellation, star));
+  };
+
   const chartCanvasRef = useD3(
     (drawingCanvas, chartAreaWidth, chartAreaHeight) => {
       drawingCanvas.select("svg").remove();
@@ -28,6 +51,7 @@ export const StarChart = ({ stars }: Props) => {
       const height = chartAreaHeight;
 
       const radius = d3.scaleLinear([0.6, 1], [2, 6]);
+      const outline = d3.geoCircle().radius(90).center([0, 90])();
       const graticule = d3.geoGraticule().stepMinor([15, 10])();
 
       const projection = d3
@@ -44,6 +68,9 @@ export const StarChart = ({ stars }: Props) => {
 
       const path = d3.geoPath(projection);
 
+      const hasSelectedFirstStar =
+        hasConstellationSelectedFirstStar(constellation);
+
       const svg = drawingCanvas
         .append("svg")
         .attr("width", width)
@@ -54,7 +81,8 @@ export const StarChart = ({ stars }: Props) => {
           "display: block; margin: 0 -14px; width: 100%; height: auto; font: 10px sans-serif; color: white;",
         )
         .attr("text-anchor", "middle")
-        .attr("fill", "currentColor");
+        .attr("fill", "currentColor")
+        .attr("class", hasSelectedFirstStar ? "cursor-crosshair" : "");
 
       const defs = svg.append("defs");
 
@@ -62,25 +90,22 @@ export const StarChart = ({ stars }: Props) => {
 
       addRadialGradient(defs, "fadeGradient");
 
+      addOutline(svg, path, outline);
+
       addGraticule(svg, path, graticule);
 
       addTicks(svg, projection);
 
-      addStars(svg, projection, stars, radius);
-      //stars
-      svg
-        .append("g")
-        .attr("stroke", "transparent")
-        .selectAll()
-        .data(stars)
-        .join("circle")
-        .attr("r", (star) => radius(star.brightness))
-        .attr("class", "star")
-        .attr("fill", "url(#fadeGradient)")
-        .attr(
-          "transform",
-          (star) => `translate(${projection([star.x, star.y])})`,
-        );
+      addConstellationLines(svg, projection, constellation);
+
+      addStars(
+        svg,
+        projection,
+        stars,
+        radius,
+        onStarClick,
+        isCreatingConstellation,
+      );
     },
   );
 
