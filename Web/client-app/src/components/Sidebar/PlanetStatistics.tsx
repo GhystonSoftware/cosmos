@@ -1,4 +1,4 @@
-﻿import { Planet } from "@/components/Sidebar/ExoplanetSelect.tsx";
+﻿import { Planet } from "@/components/Sidebar/PlanetSelect.tsx";
 
 type PlanetStatisticsProps = {
   planet?: Planet;
@@ -16,11 +16,27 @@ export const PlanetStatistics = ({ planet }: PlanetStatisticsProps) => {
           />
           <Statistic
             label="Relative Sun Brightness"
-            value={`${planet.relativeSunBrightness.toFixed(2)} times the brightness of the Sun`}
+            value={`${planet.relativeBrightnessToSun.toFixed(2)} times the brightness of the Sun`}
           />
           <Statistic
             label="Sun Temperature"
             value={`${planet.sunTemperatureInKelvin}K`}
+          />
+          <Statistic
+            label="Relative Size to Earth"
+            value={`${planet.relativeSizeToEarth.toFixed(2)} times the size of Earth`}
+          />
+          <Statistic
+            label="Relative Mass to Earth"
+            value={`${planet.relativeMassToEarth.toFixed(2)} times the mass of Earth`}
+          />
+          <Statistic
+            label="Relative Gravity to Earth"
+            value={`${planet.relativeGravityToEarth.toFixed(2)} times the gravity of Earth`}
+          />
+          <Statistic
+            label="Number of Suns in System"
+            value={`${planet.numberOfStarsInSystem}`}
           />
         </>
       ) : (

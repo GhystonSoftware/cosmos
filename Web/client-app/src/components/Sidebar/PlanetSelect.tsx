@@ -13,7 +13,7 @@ export type PlanetOption = {
   planet: Planet;
 };
 
-type ExoplanetSelectProps = {
+type PlanetSelectProps = {
   value: PlanetOption | null;
   onChange: (option: PlanetOption | null) => void;
 };
@@ -26,11 +26,15 @@ export type Planet = {
   id: number;
   name: string;
   distanceFromEarthInParsecs: number;
-  relativeSunBrightness: number;
+  relativeBrightnessToSun: number;
   sunTemperatureInKelvin: number;
+  relativeSizeToEarth: number;
+  relativeMassToEarth: number;
+  relativeGravityToEarth: number;
+  numberOfStarsInSystem: number;
 };
 
-export const ExoplanetSelect = (props: ExoplanetSelectProps) => {
+export const PlanetSelect = (props: PlanetSelectProps) => {
   const { data } = useQuery({
     queryKey: ["planets"],
     queryFn: async () => {

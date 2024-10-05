@@ -15,7 +15,7 @@ import {
   hasConstellationSelectedFirstStar,
   updateConstellationOnStarClick,
 } from "@/helpers/constellationHelpers.ts";
-import { PlanetOption } from "@/components/Sidebar/ExoplanetSelect.tsx";
+import { PlanetOption } from "@/components/Sidebar/PlanetSelect.tsx";
 import { useQuery } from "@tanstack/react-query";
 
 export type Props = {
