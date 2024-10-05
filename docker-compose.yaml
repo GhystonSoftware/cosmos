@@ -1,0 +1,9 @@
+﻿services:
+  database:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    ports: 
+      - 1489:1433
+    environment:
+      - ACCEPT_EULA=true
+      - MSSQL_SA_PASSWORD=SuperSecure01!
+        
