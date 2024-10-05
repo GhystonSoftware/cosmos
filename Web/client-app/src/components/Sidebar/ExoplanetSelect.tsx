@@ -5,49 +5,74 @@ import {
   SelectTrigger,
   SelectValue,
 } from "../ui/select";
+import { useQuery } from "@tanstack/react-query";
 
 export type PlanetOption = {
   label: string;
   value: string;
-  gravity: number;
+  planet: Planet;
 };
 
 type ExoplanetSelectProps = {
-  options: PlanetOption[];
   value: PlanetOption | null;
   onChange: (option: PlanetOption | null) => void;
 };
 
+type PlanetsResponse = {
+  planets: Planet[];
+};
+
+export type Planet = {
+  id: number;
+  name: string;
+  distanceFromEarthInParsecs: number;
+  relativeSunBrightness: number;
+  sunTemperatureInKelvin: number;
+};
+
 export const ExoplanetSelect = (props: ExoplanetSelectProps) => {
+  const { data } = useQuery({
+    queryKey: ["planets"],
+    queryFn: async () => {
+      const response = await fetch("/api/planets");
+      return ((await response.json()) as PlanetsResponse).planets.map(
+        (planet) => ({
+          label: planet.name,
+          value: planet.name,
+          planet: planet,
+        }),
+      );
+    },
+  });
+
   const handlePlanetChange = (value: string) => {
-    const planet = props.options.find((option) => option.value === value);
+    const planet = data && data.find((option) => option.value === value);
     props.onChange(planet ?? null);
   };
 
   return (
-    <div>
+    <div className="mb-4">
       <Select
         value={props.value?.value ?? undefined}
         onValueChange={handlePlanetChange}
       >
         <SelectTrigger className="mb-4">
-          <SelectValue placeholder="Planet..." />
+          <SelectValue
+            placeholder={data === undefined ? "Loading..." : "Select planet..."}
+          />
         </SelectTrigger>
         <SelectContent>
-          {props.options.map((option) => (
-            <SelectItem key={option.value} value={option.value}>
-              {option.label}
-            </SelectItem>
-          ))}
+          {data &&
+            data.map((option) => (
+              <SelectItem key={option.value} value={option.value}>
+                <b>{option.label}</b>
+                <span className="ml-2 text-gray-300">
+                  [{option.planet.distanceFromEarthInParsecs} parsecs]
+                </span>
+              </SelectItem>
+            ))}
         </SelectContent>
       </Select>
     </div>
   );
 };
-
-// TODO: pull this from the API
-export const defaultPlanetOptions: PlanetOption[] = [
-  { label: "51 Pegasi b", value: "51 Pegasi b", gravity: 0.47 },
-  { label: "55 Cancri e", value: "55 Cancri e", gravity: 1.55 },
-  { label: "Gliese 581 c", value: "Gliese 581 c", gravity: 2.5 },
-];
