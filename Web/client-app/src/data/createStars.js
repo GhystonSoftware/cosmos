@@ -1,13 +1,15 @@
 ﻿import { writeFileSync } from "fs";
+import _ from "lodash";
 
-const stars = [];
+const Stars = [];
 
 for (let i = 0; i < 100; i++) {
-  stars.push({
-    x: (0.5 - Math.random()) * 1000,
-    y: (0.5 - Math.random()) * 1000,
-    brightness: 0.6 + Math.random() * 0.4,
+  Stars.push({
+    Id: _.uniqueId(),
+    X: (0.5 - Math.random()) * 1000,
+    Y: (0.5 - Math.random()) * 1000,
+    Brightness: 0.6 + Math.random() * 0.4,
   });
 }
 
-writeFileSync("./stars.json", JSON.stringify(stars));
+writeFileSync("./stars.json", JSON.stringify(Stars));

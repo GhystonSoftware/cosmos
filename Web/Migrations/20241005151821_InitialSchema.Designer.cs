@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Web.Database;
 
@@ -11,9 +12,11 @@ using Web.Database;
 namespace Web.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20241005151821_InitialSchema")]
+    partial class InitialSchema
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -104,31 +107,9 @@ namespace Web.Migrations
                         .IsRequired()
                         .HasColumnType("VARCHAR(100)");
 
-                    b.Property<int>("NumberOfStarsInSystem")
-                        .HasColumnType("int");
-
-                    b.Property<decimal>("RelativeBrightnessToSun")
-                        .HasPrecision(20, 4)
-                        .HasColumnType("decimal(20,4)");
-
-                    b.Property<decimal>("RelativeGravityToEarth")
-                        .HasPrecision(20, 4)
-                        .HasColumnType("decimal(20,4)");
-
-                    b.Property<decimal>("RelativeMassToEarth")
-                        .HasPrecision(20, 4)
-                        .HasColumnType("decimal(20,4)");
-
-                    b.Property<decimal>("RelativeSizeToEarth")
-                        .HasPrecision(20, 4)
-                        .HasColumnType("decimal(20,4)");
-
                     b.Property<decimal>("RightAscensionInDegrees")
                         .HasPrecision(20, 4)
                         .HasColumnType("decimal(20,4)");
-
-                    b.Property<int>("SunTemperatureInKelvin")
-                        .HasColumnType("int");
 
                     b.HasKey("Id");
 

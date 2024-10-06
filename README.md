@@ -1,15 +1,15 @@
 # cosmos
 
 ## Dev setup
-- `docker-compose up -d`
-- `dotnet tool restore`
--
 
 ### Backend
-
-TODO add docs (include steps for non-Rider users
+Run the following commands in your project directory to set up the backend:
+- `docker-compose up -d`
+- `dotnet tool restore`
 
 ### Frontend
 
-Run `npm install` inside `./Web/client-app` to install the dependencies, then select the 'Run Frontend' task in Rider and run it. To run it from the command line, run `npm run dev` inside `./Web/client-app`.
+Run `npm install` inside `./Web/client-app` to install the dependencies.
+
+To run the app from command line, run `npm run dev` inside the same directory.
 
