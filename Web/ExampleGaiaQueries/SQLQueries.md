@@ -24,3 +24,31 @@ WHERE parallax is not null
   AND phot_g_mean_mag < 9
 ORDER BY absolute_magnitude ASC
 ```
+
+## Get the stars with the highest apparent brightness from the exoplanets
+
+```sql
+SELECT TOP 500 *
+FROM (
+    SELECT 
+        source_id, 
+        parallax, 
+        ra, 
+        dec, 
+        (phot_g_mean_mag + 5 * LOG(
+            SQRT(
+                POWER(162.55, 2) + POWER(1000/parallax, 2) - 
+                2 * 162.55 * (1000/parallax) * (
+                    cos(RADIANS(ra - 224.20)) * cos(RADIANS(dec)) * cos(RADIANS(74.90)) + 
+                    sin(RADIANS(dec)) * sin(RADIANS(74.90))
+                ) / (1000/parallax)
+            ) 
+        )) AS apparent_exoplanet_brightness
+    FROM 
+        gaiadr3.gaia_source
+    WHERE 
+        parallax IS NOT NULL  
+        AND phot_g_mean_mag IS NOT NULL
+) AS processed_star_info
+ORDER BY apparent_exoplanet_brightness ASC
+```
