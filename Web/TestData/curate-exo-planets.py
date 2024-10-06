@@ -479,7 +479,18 @@ filter(
         "distance_pc": lambda r, i, row: r and (row[i] < 20),
         "name": lambda r, i, row: r
         and (
-            row[i] in ["LHS 1678 b", "COCONUTS-2 b", "55 Cnc e", "HD 189733 b"]
+            row[i]
+            in [
+                "LHS 1678 b",
+                "COCONUTS-2 b",
+                "55 Cnc e",
+                "HD 189733 b",
+                "LHS 1140 b",
+                "L 98-59 b",
+                "HD 219134 b",
+                "HD 21749 c",
+                "pi Men c",
+            ]
         ),
     },
     # lambda r,_,__ : r and True
