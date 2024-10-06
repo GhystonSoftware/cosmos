@@ -6,12 +6,11 @@ namespace Web.Features.Planets;
 public class GetPlanets
 {
     public record Response(IEnumerable<Planet> Planets);
-    
+
     public record Planet(
         int Id,
         string Name,
         decimal DistanceFromEarthInParsecs,
-        decimal RelativeBrightnessToSun,
         int SunTemperatureInKelvin,
         decimal RelativeSizeToEarth,
         decimal RelativeMassToEarth,
@@ -33,14 +32,14 @@ public class GetPlanets
                     p.Id,
                     p.Name,
                     p.DistanceFromEarthInParsecs,
-                    p.RelativeBrightnessToSun,
                     p.SunTemperatureInKelvin,
                     p.RelativeSizeToEarth,
                     p.RelativeMassToEarth,
                     p.RelativeGravityToEarth,
-                    p.NumberOfStarsInSystem))
+                    p.NumberOfStarsInSystem
+                    ))
                 .ToList();
-            
+
             return Task.FromResult(new Response(planets));
         }
     }

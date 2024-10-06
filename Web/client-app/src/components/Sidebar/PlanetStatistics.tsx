@@ -15,10 +15,6 @@ export const PlanetStatistics = ({ planet }: PlanetStatisticsProps) => {
             value={`${planet.distanceFromEarthInParsecs.toFixed(2)} parsecs`}
           />
           <Statistic
-            label="Relative Sun Brightness"
-            value={`${planet.relativeBrightnessToSun.toFixed(2)} times the brightness of the Sun`}
-          />
-          <Statistic
             label="Sun Temperature"
             value={`${planet.sunTemperatureInKelvin}K`}
           />
