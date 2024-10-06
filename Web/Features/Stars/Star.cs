@@ -11,7 +11,9 @@ public class Star
     
     [Precision(20, 4)] public decimal RightAscensionInDegrees { get; set; }
     [Precision(20, 4)] public decimal DeclinationInDegrees { get; set; }
-    [Precision(20, 4)] public decimal DistanceFromEarthInParsecs { get; set; }
+    [Precision(20, 4)] public decimal Parallax { get; set; }
+    [Precision(20, 4)] public decimal PseudoColour { get; set; }
+    public decimal DistanceFromEarthInParsecs => 1/ Parallax;
     
     [Precision(20, 4)] public decimal Luminosity { get; set; }
     
