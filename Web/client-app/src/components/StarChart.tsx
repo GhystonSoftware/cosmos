@@ -70,7 +70,7 @@ export const StarChart = ({
       const width = chartAreaWidth;
       const height = chartAreaHeight;
 
-      const radius = d3.scaleLinear([0.6, 1], [2, 6]);
+      const radius = d3.scaleLinear([0.4, 2.5], [2, 6]);
       const outline = d3.geoCircle().radius(90).center([0, 90])();
       const graticule = d3.geoGraticule().stepMinor([15, 10])();
 

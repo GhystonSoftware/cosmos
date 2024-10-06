@@ -6,6 +6,8 @@
 Run the following commands in your project directory to set up the backend:
 - `docker-compose up -d`
 - `dotnet tool restore`
+- Run the migration: run the app backend
+- Create a new migration: `dotnet ef migrations add <MigrationName>`
 
 ### Frontend
 
