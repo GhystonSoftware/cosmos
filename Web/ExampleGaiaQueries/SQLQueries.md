@@ -19,5 +19,13 @@ WHERE DISTANCE(0, 90, ra, dec) < 90
 ORDER BY phot_g_mean_mag Desc
 ```
 
-## Query the 5,000 brightest stars (which might be visible from all the exoplanets)
+## Get the stars with the highest absolute brightness from the earth (with apparent magnitude less than 9)
 
+```sql
+SELECT TOP 300000 source_id, ra, dec, parallax, abs(1000/parallax) AS source_distance, phot_g_mean_mag as apparent_magnitude, phot_g_mean_mag - 5 * log10(abs(1000/parallax)/10) AS absolute_magnitude
+FROM gaiadr3.gaia_source
+WHERE parallax is not null
+  AND phot_g_mean_mag is not null
+  AND phot_g_mean_mag < 9
+ORDER BY absolute_magnitude ASC
+```
