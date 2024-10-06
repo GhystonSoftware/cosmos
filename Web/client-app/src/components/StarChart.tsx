@@ -27,12 +27,13 @@ export type Props = {
 
 type StarResponse = {
   stars: Star[];
+  constellations: Constellation[];
 };
 
 export type Star = {
   id: string;
-  x: number;
-  y: number;
+  longitude: number;
+  latitude: number;
   brightness: number; // apparentBrightness or alpha??
 };
 

@@ -135,7 +135,10 @@ export const addStars = (
     .attr("r", (star) => radius(star.brightness))
     .attr("class", "star")
     .attr("fill", "url(#fadeGradient)")
-    .attr("transform", (star) => `translate(${projection([star.x, star.y])})`);
+    .attr(
+      "transform",
+      (star) => `translate(${projection([star.longitude, star.latitude])})`,
+    );
 
   // I'm rendering it twice, It looks good and It would be hard to replicate the effect with a single circle, bite me
   svg
@@ -148,7 +151,10 @@ export const addStars = (
     .attr("class", "star")
     .attr("fill", "url(#fadeGradient)")
     .attr("class", isCreatingConstellation ? "cursor-crosshair" : "")
-    .attr("transform", (star) => `translate(${projection([star.x, star.y])})`)
+    .attr(
+      "transform",
+      (star) => `translate(${projection([star.longitude, star.latitude])})`,
+    )
     .on("click", onStarClick);
 };
 
@@ -164,14 +170,14 @@ export const addConstellationLines = (
 
   constellation.lines.forEach((line) => {
     if (line.star1 && line.star2) {
-      const point1 = projection([line.star1.x, line.star1.y]) as [
-        number,
-        number,
-      ];
-      const point2 = projection([line.star2.x, line.star2.y]) as [
-        number,
-        number,
-      ];
+      const point1 = projection([
+        line.star1.longitude,
+        line.star1.latitude,
+      ]) as [number, number];
+      const point2 = projection([
+        line.star2.longitude,
+        line.star2.latitude,
+      ]) as [number, number];
 
       svg
         .append("path")

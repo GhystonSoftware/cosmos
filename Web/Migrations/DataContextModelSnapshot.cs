@@ -165,19 +165,19 @@ namespace Web.Migrations
                         .HasPrecision(3, 3)
                         .HasColumnType("decimal(3,3)");
 
+                    b.Property<decimal>("Latitude")
+                        .HasPrecision(5, 2)
+                        .HasColumnType("decimal(5,2)");
+
+                    b.Property<decimal>("Longitude")
+                        .HasPrecision(5, 2)
+                        .HasColumnType("decimal(5,2)");
+
                     b.Property<int>("StarId")
                         .HasColumnType("int");
 
                     b.Property<int>("StarMapId")
                         .HasColumnType("int");
-
-                    b.Property<decimal>("X")
-                        .HasPrecision(5, 2)
-                        .HasColumnType("decimal(5,2)");
-
-                    b.Property<decimal>("Y")
-                        .HasPrecision(5, 2)
-                        .HasColumnType("decimal(5,2)");
 
                     b.HasKey("Id");
 
