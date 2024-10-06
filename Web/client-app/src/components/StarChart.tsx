@@ -17,12 +17,15 @@ import {
 } from "@/helpers/constellationHelpers.ts";
 import { PlanetOption } from "@/components/Sidebar/PlanetSelect.tsx";
 import { useQuery } from "@tanstack/react-query";
+import { useEffect } from "react";
 
 export type Props = {
   selectedPlanet: PlanetOption | null;
   isCreatingConstellation: boolean;
-  constellation: Constellation;
-  setConstellation: (constellation: Constellation) => void;
+  newConstellation: Constellation;
+  setNewConstellation: (constellation: Constellation) => void;
+  constellations: Constellation[];
+  setConstellations: (constellations: Constellation[]) => void;
 };
 
 type StarResponse = {
@@ -41,8 +44,10 @@ export type Star = {
 export const StarChart = ({
   selectedPlanet,
   isCreatingConstellation,
-  constellation,
-  setConstellation,
+  newConstellation,
+  setNewConstellation,
+  constellations,
+  setConstellations,
 }: Props) => {
   const { data } = useQuery({
     queryKey: ["stars", selectedPlanet?.planet.id],
@@ -57,10 +62,14 @@ export const StarChart = ({
     },
   });
 
+  useEffect(() => {
+    setConstellations(data?.constellations ?? []);
+  }, [data]);
+
   const onStarClick = (_: MouseEvent, star: Star) => {
     if (!isCreatingConstellation) return;
 
-    setConstellation(updateConstellationOnStarClick(constellation, star));
+    setNewConstellation(updateConstellationOnStarClick(newConstellation, star));
   };
 
   const chartCanvasRef = useD3(
@@ -70,7 +79,8 @@ export const StarChart = ({
       const width = chartAreaWidth;
       const height = chartAreaHeight;
 
-      const radius = d3.scaleLinear([0.6, 1], [2, 6]);
+      //what range is brightness from backend
+      const radius = d3.scaleLinear([0, 1], [2, 6]);
       const outline = d3.geoCircle().radius(90).center([0, 90])();
       const graticule = d3.geoGraticule().stepMinor([15, 10])();
 
@@ -89,7 +99,7 @@ export const StarChart = ({
       const path = d3.geoPath(projection);
 
       const hasSelectedFirstStar =
-        hasConstellationSelectedFirstStar(constellation);
+        hasConstellationSelectedFirstStar(newConstellation);
 
       const svg = drawingCanvas
         .append("svg")
@@ -116,7 +126,11 @@ export const StarChart = ({
 
       addTicks(svg, projection);
 
-      addConstellationLines(svg, projection, constellation);
+      constellations.forEach((constellation) =>
+        addConstellationLines(svg, projection, constellation),
+      );
+
+      addConstellationLines(svg, projection, newConstellation);
 
       if (data) {
         addStars(

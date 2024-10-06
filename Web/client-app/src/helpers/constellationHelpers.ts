@@ -2,6 +2,12 @@ import { Constellation, ConstellationLine } from "@/lib/constellation.ts";
 import { Star } from "@/components/StarChart.tsx";
 import _ from "lodash";
 
+export const createNewBlankConstellation = (): Constellation => ({
+  id: _.uniqueId(),
+  name: "",
+  lines: [],
+});
+
 export const updateConstellationOnStarClick = (
   constellation: Constellation,
   star: Star,
@@ -22,6 +28,9 @@ export const updateConstellationOnStarClick = (
   }
 
   if (!!lastLine.star1 && !lastLine.star2) {
+    if (lastLine.star1.id === star.id) {
+      return constellation;
+    }
     const newLine: ConstellationLine = {
       ...lastLine,
       star2: star,
