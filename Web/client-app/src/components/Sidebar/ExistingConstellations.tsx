@@ -8,7 +8,7 @@ export type Props = {
 export const ExistingConstellations = ({ constellations }: Props) => {
   return (
     <>
-      <Header className="my-2">Existing Constellations</Header>
+      <Header className="mt-10">Existing Constellations</Header>
       {constellations.map((c) => (
         <p> - {c.name} </p>
       ))}

@@ -57,11 +57,3 @@ export const updateConstellationOnStarClick = (
 
   return constellation;
 };
-
-export const hasConstellationSelectedFirstStar = (
-  constellation: Constellation,
-): boolean => {
-  const lastLine = constellation.lines.at(-1);
-
-  return !!lastLine && !!lastLine.star1 && !lastLine.star2;
-};

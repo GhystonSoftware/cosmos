@@ -12,9 +12,13 @@ public class GetPlanets
         string Name,
         decimal DistanceFromEarthInParsecs,
         int SunTemperatureInKelvin,
+        decimal RelativeTemperatureToEarth,
         decimal RelativeSizeToEarth,
         decimal RelativeMassToEarth,
         decimal RelativeGravityToEarth,
+        decimal YearInEarthDays,
+        string SunColor,
+        string PlanetProperty,
         int NumberOfStarsInSystem);
 
     public class Endpoint(DataContext dataContext) : EndpointWithoutRequest<Response>
@@ -33,9 +37,13 @@ public class GetPlanets
                     p.Name,
                     p.DistanceFromEarthInParsecs,
                     p.SunTemperatureInKelvin,
+                    p.RelativeTemperatureToEarth,
                     p.RelativeSizeToEarth,
                     p.RelativeMassToEarth,
                     p.RelativeGravityToEarth,
+                    p.YearInEarthDays,
+                    p.SunColor,
+                    p.PlanetProperty,
                     p.NumberOfStarsInSystem
                     ))
                 .ToList();
