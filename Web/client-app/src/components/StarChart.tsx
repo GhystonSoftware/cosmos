@@ -37,10 +37,29 @@ export type Star = {
   id: string;
   longitude: number;
   latitude: number;
-  brightness: number; // apparentBrightness or alpha??
+  brightness: number;
 };
 
-//TODO; Add some UI indicator background or text that says creating constellation ?
+function getMinimumBrightness(stars: Star[] | undefined): number {
+  if (!stars || stars?.length === 0) {
+    return 0; // Return null if the array is empty
+  }
+
+  return stars.reduce((minStar, currentStar) => {
+    return currentStar.brightness < minStar.brightness ? currentStar : minStar;
+  }).brightness;
+}
+
+function getMaximumBrightness(stars: Star[] | undefined): number {
+  if (!stars || stars?.length === 0) {
+    return 1; // Return null if the array is empty
+  }
+
+  return stars.reduce((maxStar, currentStar) => {
+    return currentStar.brightness > maxStar.brightness ? currentStar : maxStar;
+  }).brightness;
+}
+
 export const StarChart = ({
   selectedPlanet,
   isCreatingConstellation,
@@ -79,7 +98,10 @@ export const StarChart = ({
       const width = chartAreaWidth;
       const height = chartAreaHeight;
 
-      const radius = d3.scaleLinear([0.4, 2.5], [2, 6]);
+      const radius = d3.scaleLinear(
+        [getMinimumBrightness(data?.stars), getMaximumBrightness(data?.stars)],
+        [1, 7],
+      );
       const outline = d3.geoCircle().radius(90).center([0, 90])();
       const graticule = d3.geoGraticule().stepMinor([15, 10])();
 
