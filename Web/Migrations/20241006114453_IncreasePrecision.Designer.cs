@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Web.Database;
 
@@ -11,9 +12,11 @@ using Web.Database;
 namespace Web.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20241006114453_IncreasePrecision")]
+    partial class IncreasePrecision
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -34,7 +37,7 @@ namespace Web.Migrations
 
                     b.HasIndex("StarsId");
 
-                    b.ToTable("ConstellationLineVisibleStar", (string)null);
+                    b.ToTable("ConstellationLineVisibleStar");
                 });
 
             modelBuilder.Entity("Web.Features.Constellations.Constellation", b =>
@@ -63,7 +66,7 @@ namespace Web.Migrations
 
                     b.HasIndex("StarMapId");
 
-                    b.ToTable("Constellations", (string)null);
+                    b.ToTable("Constellations");
                 });
 
             modelBuilder.Entity("Web.Features.Constellations.ConstellationLine", b =>
@@ -81,7 +84,7 @@ namespace Web.Migrations
 
                     b.HasIndex("ConstellationId");
 
-                    b.ToTable("ConstellationLines", (string)null);
+                    b.ToTable("ConstellationLines");
                 });
 
             modelBuilder.Entity("Web.Features.Planets.Planet", b =>
@@ -107,9 +110,9 @@ namespace Web.Migrations
                     b.Property<int>("NumberOfStarsInSystem")
                         .HasColumnType("int");
 
-                    b.Property<string>("PlanetProperty")
-                        .IsRequired()
-                        .HasColumnType("VARCHAR(100)");
+                    b.Property<decimal>("RelativeBrightnessToSun")
+                        .HasPrecision(20, 4)
+                        .HasColumnType("decimal(20,4)");
 
                     b.Property<decimal>("RelativeGravityToEarth")
                         .HasPrecision(20, 4)
@@ -123,28 +126,16 @@ namespace Web.Migrations
                         .HasPrecision(20, 4)
                         .HasColumnType("decimal(20,4)");
 
-                    b.Property<decimal>("RelativeTemperatureToEarth")
-                        .HasPrecision(20, 4)
-                        .HasColumnType("decimal(20,4)");
-
                     b.Property<decimal>("RightAscensionInDegrees")
                         .HasPrecision(20, 4)
                         .HasColumnType("decimal(20,4)");
 
-                    b.Property<string>("SunColor")
-                        .IsRequired()
-                        .HasColumnType("VARCHAR(100)");
-
                     b.Property<int>("SunTemperatureInKelvin")
                         .HasColumnType("int");
 
-                    b.Property<decimal>("YearInEarthDays")
-                        .HasPrecision(20, 4)
-                        .HasColumnType("decimal(20,4)");
-
                     b.HasKey("Id");
 
-                    b.ToTable("Planets", (string)null);
+                    b.ToTable("Planets");
                 });
 
             modelBuilder.Entity("Web.Features.StarMaps.StarMap", b =>
@@ -162,7 +153,7 @@ namespace Web.Migrations
 
                     b.HasIndex("PlanetId");
 
-                    b.ToTable("StarMaps", (string)null);
+                    b.ToTable("StarMaps");
                 });
 
             modelBuilder.Entity("Web.Features.StarMaps.VisibleStar", b =>
@@ -197,7 +188,7 @@ namespace Web.Migrations
 
                     b.HasIndex("StarMapId");
 
-                    b.ToTable("VisibleStars", (string)null);
+                    b.ToTable("VisibleStars");
                 });
 
             modelBuilder.Entity("Web.Features.Stars.Star", b =>
@@ -234,7 +225,7 @@ namespace Web.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Stars", (string)null);
+                    b.ToTable("Stars");
                 });
 
             modelBuilder.Entity("ConstellationLineVisibleStar", b =>
