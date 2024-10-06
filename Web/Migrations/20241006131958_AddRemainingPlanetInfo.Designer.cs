@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Web.Database;
 
@@ -11,9 +12,11 @@ using Web.Database;
 namespace Web.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20241006131958_AddRemainingPlanetInfo")]
+    partial class AddRemainingPlanetInfo
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -177,19 +180,19 @@ namespace Web.Migrations
                         .HasPrecision(3, 3)
                         .HasColumnType("decimal(3,3)");
 
-                    b.Property<decimal>("Latitude")
-                        .HasPrecision(5, 2)
-                        .HasColumnType("decimal(5,2)");
-
-                    b.Property<decimal>("Longitude")
-                        .HasPrecision(5, 2)
-                        .HasColumnType("decimal(5,2)");
-
                     b.Property<int>("StarId")
                         .HasColumnType("int");
 
                     b.Property<int>("StarMapId")
                         .HasColumnType("int");
+
+                    b.Property<decimal>("X")
+                        .HasPrecision(5, 2)
+                        .HasColumnType("decimal(5,2)");
+
+                    b.Property<decimal>("Y")
+                        .HasPrecision(5, 2)
+                        .HasColumnType("decimal(5,2)");
 
                     b.HasKey("Id");
 
@@ -212,6 +215,10 @@ namespace Web.Migrations
                         .HasPrecision(20, 4)
                         .HasColumnType("decimal(20,4)");
 
+                    b.Property<decimal>("DistanceFromEarthInParsecs")
+                        .HasPrecision(20, 4)
+                        .HasColumnType("decimal(20,4)");
+
                     b.Property<decimal>("Luminosity")
                         .HasPrecision(20, 4)
                         .HasColumnType("decimal(20,4)");
@@ -219,14 +226,6 @@ namespace Web.Migrations
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("VARCHAR(100)");
-
-                    b.Property<decimal>("Parallax")
-                        .HasPrecision(20, 4)
-                        .HasColumnType("decimal(20,4)");
-
-                    b.Property<decimal>("PseudoColour")
-                        .HasPrecision(20, 4)
-                        .HasColumnType("decimal(20,4)");
 
                     b.Property<decimal>("RightAscensionInDegrees")
                         .HasPrecision(20, 4)

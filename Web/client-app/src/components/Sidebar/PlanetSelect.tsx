@@ -26,7 +26,6 @@ export type Planet = {
   id: number;
   name: string;
   distanceFromEarthInParsecs: number;
-  relativeBrightnessToSun: number;
   sunTemperatureInKelvin: number;
   relativeSizeToEarth: number;
   relativeMassToEarth: number;

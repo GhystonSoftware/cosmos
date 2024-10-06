@@ -13,10 +13,13 @@ public class Planet
     [Precision(20, 4)] public decimal DistanceFromEarthInParsecs { get; set; }
     public ICollection<StarMap>? StarMaps { get; set; }
 
-    [Precision(20, 4)] public decimal RelativeBrightnessToSun { get; set; }
     public int SunTemperatureInKelvin { get; set; }
+    [Precision(20, 4)] public decimal RelativeTemperatureToEarth { get; set; }
     [Precision(20, 4)] public decimal RelativeSizeToEarth { get; set; }
     [Precision(20, 4)] public decimal RelativeMassToEarth { get; set; }
     [Precision(20, 4)] public decimal RelativeGravityToEarth { get; set; }
+    [Precision(20, 4)] public decimal YearInEarthDays { get; set; }
+    [Column(TypeName = "VARCHAR(100)")] public string SunColor { get; set; } = "";
+    [Column(TypeName = "VARCHAR(100)")] public string PlanetProperty { get; set; } = "";
     public int NumberOfStarsInSystem { get; set; }
 }
