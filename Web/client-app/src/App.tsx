@@ -5,24 +5,21 @@ import { useState } from "react";
 import { Constellation } from "@/lib/constellation.ts";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { PlanetOption } from "@/components/Sidebar/PlanetSelect.tsx";
-
-const initialConstellation: Constellation = {
-  id: null,
-  name: "",
-  lines: [],
-};
+import { createNewBlankConstellation } from "@/helpers/constellationHelpers.ts";
 
 function App() {
   const queryClient = new QueryClient();
   const [isCreatingConstellation, setIsCreatingConstellation] = useState(false);
-  const [constellation, setConstellation] =
-    useState<Constellation>(initialConstellation);
+  const [newConstellation, setNewConstellation] = useState<Constellation>(
+    createNewBlankConstellation(),
+  );
   const [selectedPlanet, setSelectedPlanet] = useState<PlanetOption | null>(
     null,
   );
+  const [constellations, setConstellations] = useState<Constellation[]>([]);
 
   const handlePlanetChange = (value: PlanetOption | null) => {
-    setConstellation(initialConstellation);
+    setNewConstellation(createNewBlankConstellation());
     setSelectedPlanet(value);
   };
 
@@ -32,15 +29,20 @@ function App() {
         <Sidebar
           isCreatingConstellation={isCreatingConstellation}
           setIsCreatingConstellation={setIsCreatingConstellation}
-          constellation={constellation}
+          newConstellation={newConstellation}
+          setNewConstellation={setNewConstellation}
           selectedPlanet={selectedPlanet}
           setSelectedPlanet={handlePlanetChange}
+          constellations={constellations}
+          setConstellations={setConstellations}
         />
         <StarChart
           selectedPlanet={selectedPlanet}
           isCreatingConstellation={isCreatingConstellation}
-          constellation={constellation}
-          setConstellation={setConstellation}
+          newConstellation={newConstellation}
+          setNewConstellation={setNewConstellation}
+          constellations={constellations}
+          setConstellations={setConstellations}
         />
       </Layout>
     </QueryClientProvider>

@@ -28,6 +28,10 @@
         <None Include="$(SpaRoot)**" Exclude="$(SpaRoot)node_modules\**" />
     </ItemGroup>
 
+    <ItemGroup>
+      <Folder Include="client-app\src\components\icons\" />
+    </ItemGroup>
+
     <Target Name="PublishReact" AfterTargets="ComputeFilesToPublish">
         <Exec WorkingDirectory="$(SpaRoot)" Command="npm install" />
         <Exec WorkingDirectory="$(SpaRoot)" Command="npm run build" />
