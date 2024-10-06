@@ -92,7 +92,7 @@ export const StarChart = ({
           [0, 0],
           [width, height],
         ])
-        .rotate([0, 90])
+        .rotate([0, -90])
         .translate([width / 2, height / 2])
         .precision(0.1);
 
