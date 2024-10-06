@@ -27,9 +27,13 @@ export type Planet = {
   name: string;
   distanceFromEarthInParsecs: number;
   sunTemperatureInKelvin: number;
+  relativeTemperatureToEarth: number;
   relativeSizeToEarth: number;
   relativeMassToEarth: number;
   relativeGravityToEarth: number;
+  yearInEarthDays: number;
+  sunColor: string;
+  planetProperty: string;
   numberOfStarsInSystem: number;
 };
 

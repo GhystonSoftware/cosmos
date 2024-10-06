@@ -133,7 +133,7 @@ export const addStars = (
     .data(stars)
     .join("circle")
     .attr("r", (star) => radius(star.brightness))
-    .attr("class", "star")
+    .attr("class", "star cursor-pointer")
     .attr("fill", "url(#fadeGradient)")
     .attr(
       "transform",

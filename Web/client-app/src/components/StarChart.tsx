@@ -11,10 +11,7 @@ import {
   addTicks,
 } from "@/helpers/starChartHelpers.ts";
 import { Constellation } from "@/lib/constellation.ts";
-import {
-  hasConstellationSelectedFirstStar,
-  updateConstellationOnStarClick,
-} from "@/helpers/constellationHelpers.ts";
+import { updateConstellationOnStarClick } from "@/helpers/constellationHelpers.ts";
 import { PlanetOption } from "@/components/Sidebar/PlanetSelect.tsx";
 import { useQuery } from "@tanstack/react-query";
 import { useEffect } from "react";
@@ -119,9 +116,6 @@ export const StarChart = ({
 
       const path = d3.geoPath(projection);
 
-      const hasSelectedFirstStar =
-        hasConstellationSelectedFirstStar(newConstellation);
-
       const svg = drawingCanvas
         .append("svg")
         .attr("width", width)
@@ -132,8 +126,7 @@ export const StarChart = ({
           "display: block; margin: 0 -14px; width: 100%; height: auto; font: 10px sans-serif; color: white;",
         )
         .attr("text-anchor", "middle")
-        .attr("fill", "currentColor")
-        .attr("class", hasSelectedFirstStar ? "cursor-crosshair" : "");
+        .attr("fill", "currentColor");
 
       const defs = svg.append("defs");
 

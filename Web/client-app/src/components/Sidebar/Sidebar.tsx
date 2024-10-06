@@ -31,10 +31,10 @@ export const Sidebar = ({
 }: Props) => {
   return (
     <div className="border-2 border-gray-700 p-4 m-4 rounded-xl w-1/4">
-      <Header>Step 1: pick your planet</Header>
+      <Header>Pick your planet</Header>
       <PlanetSelect value={selectedPlanet} onChange={setSelectedPlanet} />
       <PlanetStatistics planet={selectedPlanet?.planet} />
-      <Header>Step 2: build your constellation!</Header>
+      <Header>Build your constellation!</Header>
       <ConstellationForm
         isCreatingConstellation={isCreatingConstellation}
         setIsCreatingConstellation={setIsCreatingConstellation}
